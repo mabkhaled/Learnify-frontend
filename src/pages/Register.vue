@@ -135,10 +135,12 @@ import { defineComponent, ref } from 'vue'
 import { useQuasar } from 'quasar'
 //import api from axios
 import { api } from '../boot/axios'
+import { useRouter } from 'vue-router';
 export default defineComponent({
     name: 'Register',
     setup() {
         const $q = useQuasar();
+        const $router = useRouter();
         const data = ref({
             username: ref(''),
             firstName: ref(''),
@@ -192,16 +194,18 @@ export default defineComponent({
                         message: 'votre compte a été créé avec succès',
                     })
                     // redirect to login page
-                    $q.router.push('/login')
+                    $router.push('/login')
+
                 } else {
+                    console.log("this is the error inside the register function")
                     $q.notify({
                         color: 'negative',
                         message: 'Une erreur est survenue lors de la création de votre compte',
                     })
                 }
-                //if status code is 200 then show notification account created successfully else show error
             }).catch(err => {
                 console.log(err)
+                console.log("this is the error inside the catch statement")
                 $q.notify({
                     color: 'negative',
                     message: 'Une erreur est survenue lors de la création de votre compte',
@@ -210,11 +214,6 @@ export default defineComponent({
 
             //log user data
             console.log(userData)
-            // register user on the database   
-            api.post('/users/regster', data.value);
-
-
-
         }
         return {
             data,
