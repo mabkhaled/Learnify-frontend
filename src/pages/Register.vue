@@ -132,11 +132,13 @@
 <!-- create script tag -->
 <script>
 import { defineComponent, ref } from 'vue'
+import { useQuasar } from 'quasar'
 //import api from axios
 import { api } from '../boot/axios'
 export default defineComponent({
     name: 'Register',
     setup() {
+        const $q = useQuasar();
         const data = ref({
             username: ref(''),
             firstName: ref(''),
@@ -184,7 +186,19 @@ export default defineComponent({
                 },
             }).then(res => {
                 console.log(res)
+                $q.notify({
+                    color: 'positive',
+                    message: 'Votre compte a été créé avec succès',
+                })
+                //if status code is 200 then show notification account created successfully else show error
+            }).catch(err => {
+                console.log(err)
+                $q.notify({
+                    color: 'negative',
+                    message: 'Une erreur est survenue lors de la création de votre compte',
+                })
             })
+
             //log user data
             console.log(userData)
             // register user on the database   
@@ -209,10 +223,6 @@ export default defineComponent({
             },
             onSubmit() {
                 register()
-
-
-
-
             },
         }
     }
