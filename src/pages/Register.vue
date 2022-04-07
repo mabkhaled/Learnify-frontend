@@ -185,11 +185,20 @@ export default defineComponent({
                     'Content-Type': 'multipart/form-data',
                 },
             }).then(res => {
-                console.log(res)
-                $q.notify({
-                    color: 'positive',
-                    message: 'Votre compte a été créé avec succès',
-                })
+                // chek for status code
+                if (res.status === 200) {
+                    $q.notify({
+                        color: 'positive',
+                        message: 'votre compte a été créé avec succès',
+                    })
+                    // redirect to login page
+                    $q.router.push('/login')
+                } else {
+                    $q.notify({
+                        color: 'negative',
+                        message: 'Une erreur est survenue lors de la création de votre compte',
+                    })
+                }
                 //if status code is 200 then show notification account created successfully else show error
             }).catch(err => {
                 console.log(err)
