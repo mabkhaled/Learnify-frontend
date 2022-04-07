@@ -1,0 +1,139 @@
+<!-- logi template -->
+<template>
+    <q-card class="absolute-center">
+        <q-card-section>
+            <div class="text-h6 absolute-center q-ma-md">Register Form</div>
+        </q-card-section>
+        <q-card-section>
+            <div class="q-pa-xl" style="width: 500px;">
+                <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                    <!-- q-input element  -->
+                    <q-input
+                        filled
+                        v-model="data.firstName"
+                        label="Votre Nom *"
+                        hint="type your first name"
+                        lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']"
+                    />
+                    <!-- end of q-input element -->
+                    <q-input
+                        filled
+                        v-model="data.lastName"
+                        label="Votre Prénom *"
+                        hint="type your Last Name"
+                        lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']"
+                    />
+                    <q-input
+                        filled
+                        v-model="data.email"
+                        label="Votre Email *"
+                        hint="type your Email"
+                        lazy-rules
+                        :rules="[val => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) || 'Please type a valid email']"
+                    />
+                    <!-- this is the Birth date input -->
+                    <q-input filled v-model="data.birthDate" mask="date" :rules="['date']">
+                        <template v-slot:append>
+                            <q-icon name="event" class="cursor-pointer">
+                                <q-popup-proxy
+                                    ref="qDateProxy"
+                                    cover
+                                    transition-show="scale"
+                                    transition-hide="scale"
+                                >
+                                    <q-date v-model="data.birthDate">
+                                        <div class="row items-center justify-end">
+                                            <q-btn
+                                                v-close-popup
+                                                label="Close"
+                                                color="primary"
+                                                flat
+                                            />
+                                        </div>
+                                    </q-date>
+                                </q-popup-proxy>
+                            </q-icon>
+                        </template>
+                    </q-input>
+                    <!-- end of birth date input -->
+
+                    <q-input
+                        filled
+                        type="Password"
+                        v-model="data.password"
+                        label="Your Password *"
+                        lazy-rules
+                        :rules="[
+                            val => val !== null && val !== '' && val.length > 8 && val.length < 15|| 'Please type your Password',
+                        ]"
+                    />
+
+                    <div>
+                        <q-btn label="Register" type="submit" color="primary" />
+                        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                        <q-btn
+                            label="Login Page"
+                            to="/login"
+                            color="primary"
+                            flat
+                            class="q-ml-sm float-right"
+                        />
+                    </div>
+                </q-form>
+            </div>
+        </q-card-section>
+    </q-card>
+</template>
+
+<!-- create script tag -->
+<script>
+import { defineComponent, ref } from 'vue'
+//import api from axios
+import { api } from '../boot/axios'
+export default defineComponent({
+    name: 'Register',
+    setup() {
+        const data = ref({
+            firstName: ref(''),
+            lastName: ref(''),
+            email: ref(''),
+            birthDate: ref(null),
+            password: ref(''),
+        })
+        const register = () => {
+            const userData = {
+                firstName: data.value.firstName,
+                lastName: data.value.lastName,
+                email: data.value.email,
+                // birthDate: data.value.birthDate,
+                password: data.value.password,
+            }
+            // register user on the database   
+            api.post('/users/regster', data.value)
+
+
+        }
+        return {
+            data,
+            onReset() {
+                data.value = {
+                    firstName: ref(''),
+                    lastName: ref(''),
+                    email: ref(''),
+                    birthDate: ref(null),
+                    password: ref(''),
+                }
+            },
+            onSubmit() {
+                register()
+
+
+
+
+            },
+        }
+    }
+})
+</script>
