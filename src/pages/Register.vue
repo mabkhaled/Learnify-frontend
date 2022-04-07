@@ -1,12 +1,21 @@
 <!-- logi template -->
 <template>
-    <q-card class="absolute-center">
+    <q-card align="center">
         <q-card-section>
-            <div class="text-h6 absolute-center q-ma-md">Register Form</div>
+            <div class="text-h6 absolute-center">Register Form</div>
         </q-card-section>
         <q-card-section>
-            <div class="q-pa-xl" style="width: 500px;">
+            <div class="q-ma-xl" style="width: 500px;">
                 <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                    <!-- q-input username element  -->
+                    <q-input
+                        filled
+                        v-model="data.username"
+                        label="Nmm d'utilisateur"
+                        hint="type your username"
+                        lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']"
+                    />
                     <!-- q-input element  -->
                     <q-input
                         filled
@@ -34,7 +43,13 @@
                         :rules="[val => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) || 'Please type a valid email']"
                     />
                     <!-- this is the Birth date input -->
-                    <q-input filled v-model="data.birthDate" mask="date" :rules="['date']">
+                    <q-input
+                        filled
+                        v-model="data.birthDate"
+                        mask="date"
+                        :rules="['date']"
+                        hint="Votre data de naissance"
+                    >
                         <template v-slot:append>
                             <q-icon name="event" class="cursor-pointer">
                                 <q-popup-proxy
@@ -43,7 +58,10 @@
                                     transition-show="scale"
                                     transition-hide="scale"
                                 >
-                                    <q-date v-model="data.birthDate">
+                                    <q-date
+                                        v-model="data.birthDate"
+                                        hint="donner votre mot de pass"
+                                    >
                                         <div class="row items-center justify-end">
                                             <q-btn
                                                 v-close-popup
@@ -61,14 +79,38 @@
 
                     <q-input
                         filled
+                        v-model="data.phone"
+                        label="Votre numéro de telephone *"
+                        hint="type your phone number"
+                        lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']"
+                    />
+                    <q-input
+                        filled
                         type="Password"
                         v-model="data.password"
                         label="Your Password *"
                         lazy-rules
                         :rules="[
-                            val => val !== null && val !== '' && val.length > 8 && val.length < 15|| 'Please type your Password',
+                            val => val !== null && val !== '' && val.length > 8 && val.length < 15 || 'Please type your Password',
                         ]"
                     />
+
+                    <!-- upload profile image -->
+                    <q-file color="purple-12" v-model="data.profileImage" label="Profile image">
+                        <template v-slot:prepend>
+                            <q-icon name="attach_file" />
+                        </template>
+                    </q-file>
+                    <!-- end of upload profile image -->
+
+                    <!-- profile type select -->
+                    <q-select
+                        v-model="data.profileType"
+                        label="Profile Type *"
+                        :options="data.profileTypeOptions"
+                        :rules="[val => val || 'Please select a profile type']"
+                    ></q-select>
 
                     <div>
                         <q-btn label="Register" type="submit" color="primary" />
@@ -96,22 +138,58 @@ export default defineComponent({
     name: 'Register',
     setup() {
         const data = ref({
+            username: ref(''),
             firstName: ref(''),
             lastName: ref(''),
             email: ref(''),
             birthDate: ref(null),
+            phone: ref(''),
             password: ref(''),
+            profileImage: ref(null),
+            profileType: ref(null),
+            profileTypeOptions: [
+                { label: 'etudinat', value: 'ETUDIENT' },
+                { label: 'enseignant', value: 'ENSEIGNANT' },
+            ],
         })
         const register = () => {
+            const formData = new FormData();
             const userData = {
-                firstName: data.value.firstName,
+                username: data.value.username,
+                name: data.value.firstName,
                 lastName: data.value.lastName,
                 email: data.value.email,
-                // birthDate: data.value.birthDate,
+                birthDate: data.value.birthDate,
                 password: data.value.password,
+                email: data.value.email,
+                phone: data.value.phone,
+                roles: [data.value.profileType.value],
             }
+            //transform json object to blob
+            const userdataBlob = new Blob([JSON.stringify(userData)], {
+                type: 'application/json',
+            });
+
+
+
+
+
+            //log userdate json
+            console.log(JSON.stringify(userData))
+            formData.append('signUpRequest', userdataBlob)
+            formData.append('profileImage', data.value.profileImage, data.value.profileImage.name)
+            api.post('/api/auth/signup', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }).then(res => {
+                console.log(res)
+            })
+            //log user data
+            console.log(userData)
             // register user on the database   
-            api.post('/users/regster', data.value)
+            api.post('/users/regster', data.value);
+
 
 
         }
@@ -124,6 +202,9 @@ export default defineComponent({
                     email: ref(''),
                     birthDate: ref(null),
                     password: ref(''),
+                    phone: ref(''),
+                    profileImage: ref(null),
+                    profileType: ref(null),
                 }
             },
             onSubmit() {
