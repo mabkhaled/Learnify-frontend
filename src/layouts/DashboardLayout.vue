@@ -5,7 +5,7 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-avatar>
+          <q-avatar class="q-mr-sm">
             <img src="icon.jpg" />
           </q-avatar>Learnify
         </q-toolbar-title>
