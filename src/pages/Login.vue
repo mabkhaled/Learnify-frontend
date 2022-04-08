@@ -82,9 +82,12 @@ export default defineComponent({
                         textColor: 'white',
                         message: 'Bienvenue ' + res.data.username,
                     })
+                    //save user data in local storage
+                    localStorage.setItem('user', JSON.stringify(res.data))
+                    console.log("store user data in local storage :" + localStorage.getItem('user'))
 
                     //redirect to home page
-                    $router.push('/')
+                    $router.push('/dashboard')
                 }
                 else {
                     $q.notify({
