@@ -7,13 +7,10 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({  'Access-Control-Allow-Credentials':true
-,
-  baseURL: "http://localhost:30263/" });
+const api = axios.create({  baseURL: "http://localhost:30263/" });
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
-  axios.defaults.withCredentials = true;
   app.config.globalProperties.$axios = axios;
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file
