@@ -34,6 +34,21 @@ export default route(function (/* { store, ssrContext } */) {
       process.env.MODE === "ssr" ? void 0 : process.env.VUE_ROUTER_BASE
     ),
   });
+  Router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated()) {
+      //log
+      console.log("not authenticated redirect to login");
+      next('/login')
+    } else {
+      console.log("continue routes");
+      next()
+    }
+  });
 
   return Router;
 });
+
+//create isAuthenticated function
+function isAuthenticated() {
+  return localStorage.getItem('user') !== null;
+}
