@@ -97,7 +97,12 @@
                     />
 
                     <!-- upload profile image -->
-                    <q-file color="purple-12" v-model="data.profileImage" label="Profile image">
+                    <q-file
+                        color="purple-12"
+                        v-model="data.profileImage"
+                        label="Profile image"
+                        accept=".jpg"
+                    >
                         <template v-slot:prepend>
                             <q-icon name="attach_file" />
                         </template>

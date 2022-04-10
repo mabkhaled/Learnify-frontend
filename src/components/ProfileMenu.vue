@@ -6,8 +6,8 @@
                 <div class="row no-wrap q-pa-md">
                     <div class="column">
                         <div class="text-h6 q-mb-md">Settings</div>
-                        <q-toggle v-model="mobileData" label="Use Mobile Data" />
-                        <q-toggle v-model="bluetooth" label="Bluetooth" />
+                        <q-toggle v-model="mobileData" label="une option" />
+                        <q-toggle v-model="bluetooth" label="une option" />
                     </div>
 
                     <q-separator vertical inset class="q-mx-lg" />
@@ -39,10 +39,12 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router';
 
 
-const $router = useRouter();
+
 export default {
 
     setup() {
+        //always declare $router in setup
+        const $router = useRouter();
 
         //get user information from local storage
         const userDetails = ref(JSON.parse(localStorage.getItem('user')))
