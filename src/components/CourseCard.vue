@@ -54,7 +54,7 @@ export default defineComponent({
             required: true,
         },
         price: {
-            type: Number,
+            type: String,
             required: true,
         },
         stars: {

@@ -38,6 +38,7 @@ export default {
   setup() {
     const leftDrawerOpen = ref(false);
     const links = [
+      {title: 'Dashboard', icon: 'dashboard', to: '/dashboard'},
       {
         title: 'Notifications',
         caption: 'Consultez les notifications',
