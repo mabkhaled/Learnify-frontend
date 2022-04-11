@@ -3,13 +3,8 @@
         <q-img :src="imgUrl" />
 
         <q-card-section>
-            <q-btn
-                fab
-                color="primary"
-                icon="shopping_cart"
-                class="absolute"
-                style="top: 0; right: 12px; transform: translateY(-50%);"
-            />
+            <q-btn fab color="primary" icon="shopping_cart" class="absolute"
+                style="top: 0; right: 12px; transform: translateY(-50%);" />
 
             <div class="row no-wrap items-center">
                 <div class="col text-h6 ellipsis">{{ title }}</div>
@@ -24,7 +19,7 @@
 
         <q-card-section class="q-pt-none">
             <div class="text-subtitle1">Course Subtitle</div>
-            <div class="text-caption text-grey">Course description detaillé.</div>
+            <div class="text-caption text-grey">{{ description }}</div>
         </q-card-section>
 
         <q-separator />
@@ -33,7 +28,7 @@
             <q-btn flat round icon="visibility" />
             <q-btn flat color="primary">Voire</q-btn>
         </q-card-actions>
-    </q-card>
+        </q-card>
 </template>
 
 <script>
@@ -54,7 +49,7 @@ export default defineComponent({
             required: true,
         },
         price: {
-            type: String,
+            type: Number,
             required: true,
         },
         stars: {
@@ -62,12 +57,17 @@ export default defineComponent({
             required: true,
             default: 2,
         },
+        description: {
+            type: String,
+            required: true,
+            default: null
+        },
 
     },
     setup(props) {
         return {
             star: ref(props.stars),
-            
+
         }
 
     }
