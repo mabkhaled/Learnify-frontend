@@ -56,6 +56,24 @@ export default defineComponent({
         const addCourse = (CourseData) => {
             api.post('/courses', CourseData)
                 .then(res => {
+                    const userid = JSON.parse(localStorage.getItem('user')).id;
+                    const auteurLink = "http://localhost:30263/users/" + userid + "/courses";
+                    const courseLink = res.data._links.self.href;
+                    api.put(auteurLink,
+                        courseLink
+                        , {
+                            headers: {
+                                'Content-Type': 'text/uri-list'
+                            }
+                        }).then(res => {
+                            $q.notify({
+                                message: 'Course added to user acount',
+                                color: 'positive',
+                                textColor: 'white',
+                                icon: 'check'
+                            })
+                        })
+
                     //show quasar notification success
                     $q.notify({
                         color: 'positive',
@@ -65,7 +83,14 @@ export default defineComponent({
                     console.log("data is posted with success");
                     console.log(res.data);
                 })
+
                 .catch(err => {
+                    //show quasar notification error
+                    $q.notify({
+                        color: 'negative',
+                        textColor: 'white',
+                        message: 'Error adding course',
+                    })
                     console.log("an error occured");
                     console.log(err);
                 })
