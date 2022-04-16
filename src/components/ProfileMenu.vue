@@ -17,16 +17,9 @@
                             <img :src="profileImgUrl" />
                         </q-avatar>
 
-                        <div class="text-subtitle1 q-mt-md q-mb-xs">{{ userDetails.username }}</div>
+                        <div class="text-subtitle1 q-mt-md q-mb-xs">{{ userDetails.firstName + userDetails.lastName}}</div>
 
-                        <q-btn
-                            color="primary"
-                            label="Logout"
-                            push
-                            size="sm"
-                            v-close-popup
-                            @click="logout()"
-                        />
+                        <q-btn color="primary" label="Logout" push size="sm" v-close-popup @click="logout()" />
                     </div>
                 </div>
             </q-menu>
@@ -69,7 +62,7 @@ export default {
     },
     computed: {
         profileImgUrl() {
-            return "http://localhost:30263/content/profileimg/" + this.userDetails.id + ".jpg"
+            return this.userDetails.profilePic
         }
     }
 }

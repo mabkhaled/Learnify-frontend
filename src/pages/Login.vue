@@ -7,35 +7,17 @@
         <q-card-section>
             <div class="q-pa-xl" style="width: 500px;">
                 <q-form @submit="onSubmit" class="q-gutter-md">
-                    <q-input
-                        filled
-                        v-model="data.username"
-                        label="Nom d'utilisateur *"
-                        hint="type your username"
-                        lazy-rules
-                        :rules="[val => val !== null && val !== '' || 'Please type something']"
-                    />
+                    <q-input filled v-model="data.useremail" label="Email d'utilisateur *" hint="type your email"
+                        lazy-rules :rules="[val => val !== null && val !== '' || 'Please type something']" />
 
-                    <q-input
-                        filled
-                        type="Password"
-                        v-model="data.password"
-                        label="Votre mot de passe *"
-                        lazy-rules
+                    <q-input filled type="Password" v-model="data.password" label="Votre mot de passe *" lazy-rules
                         :rules="[
                             val => val !== null && val !== '' || 'Please type your Password',
-                        ]"
-                    />
+                        ]" />
 
                     <div>
                         <q-btn label="Login" type="submit" color="primary" />
-                        <q-btn
-                            label="Register page"
-                            to="/register"
-                            color="primary"
-                            flat
-                            class="q-ml-sm float-right"
-                        />
+                        <q-btn label="Register page" to="/register" color="primary" flat class="q-ml-sm float-right" />
                     </div>
                 </q-form>
             </div>
@@ -57,7 +39,7 @@ export default defineComponent({
         const $q = useQuasar();
         const $router = useRouter();
         const data = ref({
-            username: ref(''),
+            useremail: ref(''),
             password: ref(''),
         })
         const login = () => {
@@ -65,14 +47,12 @@ export default defineComponent({
             // if success, redirect to home page
             // if fail, show error message
             const userData = {
-                username: data.value.username,
+                email: data.value.useremail,
                 password: data.value.password,
             }
             //log userData
             console.log(userData)
-            api.post('/api/auth/signin', userData, {
-                withCredentials: true,
-            }).then(res => {
+            api.post('/users/login', userData).then(res => {
                 console.log(res)
                 //if http status is 200 show success message
                 if (res.status === 200) {
@@ -80,7 +60,7 @@ export default defineComponent({
                     $q.notify({
                         color: 'positive',
                         textColor: 'white',
-                        message: 'Bienvenue ' + res.data.username,
+                        message: 'Bienvenue ' + res.data.firstName +" "+ res.data.lastName,
                     })
                     //save user data in local storage
                     localStorage.setItem('user', JSON.stringify(res.data))
@@ -93,7 +73,7 @@ export default defineComponent({
                     $q.notify({
                         color: 'negative',
                         textColor: 'white',
-                        message: 'Invalid username or password',
+                        message: 'Invalid useremail or password',
                     })
                 }
             }).catch(err => {

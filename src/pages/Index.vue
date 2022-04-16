@@ -12,8 +12,9 @@
     </div>
     <div class="row">
       <course-card v-for="c in CourseList" :key="c.title" imgUrl="img/course.jpg" :title="c.title" :price="c.price"
-        :stars="c.stars" :description="c.desc"></course-card>
-    </div></q-page>
+        :stars="c.stars" :description="c.description.substring(0, 30)+'...'"></course-card>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -65,13 +66,15 @@ export default defineComponent({
       coursesCategories,
       CourseList,
       getCourses() {
+        const userDetails = JSON.parse(localStorage.getItem('user'))._id;
+        //comenting this part of code to get all courses and to be replaced with the new api logic
         api.get("/courses").then((res) => {
           console.log("course data fetched");
-          this.CourseList = res.data._embedded.courses;
+          this.CourseList = res.data;
           console.log(this.CourseList);
           //if the CourseList desc is null then set it to no description available
           this.CourseList.forEach((course) => {
-            if (course.desc == null) {
+            if (course.description == null) {
               course.desc = "No description available";
             }
           });

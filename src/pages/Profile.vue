@@ -40,7 +40,7 @@
         <div class="row flex-center q-ma-md">
             <!-- profile image -->
             <div class="col" style="max-width: 50%;">
-                <q-file v-model="data.profilePhoto" label="Photo de Profile" >
+                <q-file v-model="data.profilePhoto" label="Photo de Profile">
                     <template v-slot:append>
                         <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
                     </template>
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        </q-page>
+    </q-page>
 </template>
 
 <script>
@@ -73,7 +73,7 @@ export default defineComponent({
 
     },
     mounted() {
-        data.userNameInput = JSON.parse(localStorage.getItem('user')).username;
+        data.userNameInput = JSON.parse(localStorage.getItem('user')).firstName;
         data.emailInput = JSON.parse(localStorage.getItem('user')).email;
         console.log(data.userNameInput);
     },
