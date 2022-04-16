@@ -14,7 +14,12 @@
                             stack-label label="Multiple selection" />
                         <q-input v-model="data.CoursePrice" label="le Prix" type="number"></q-input>
                         <q-input v-model="data.courseDescription" label="Description"></q-input>
-
+                        <!-- upload Course image -->
+                        <q-file color="purple-12" v-model="data.CourseImage" label="Course image" accept=".jpg">
+                            <template v-slot:prepend>
+                                <q-icon name="attach_file" />
+                            </template>
+                        </q-file>
 
 
                         <div>
@@ -26,7 +31,7 @@
             </q-card-section>
         </q-card>
 
-        </q-page>
+    </q-page>
 
 </template>
 
@@ -42,6 +47,7 @@ const data = ref({
     tags: '',
     CoursePrice: 0,
     courseDescription: '',
+    CourseImage: ref(null),
     options: [
         "coding", "design", "lifestyle", "photography", "music", "video", "marketing", "business", "languages", "programming", "social", "health", "science", "technology", "others"
     ],
@@ -54,63 +60,50 @@ export default defineComponent({
     setup() {
         const $q = useQuasar();
         const addCourse = (CourseData) => {
-            api.post('/courses', CourseData)
-                .then(res => {
-                    const userid = JSON.parse(localStorage.getItem('user')).id;
-                    const auteurLink = "http://localhost:30263/users/" + userid + "/courses";
-                    const courseLink = res.data._links.self.href;
-                    api.put(auteurLink,
-                        courseLink
-                        , {
-                            headers: {
-                                'Content-Type': 'text/uri-list'
-                            }
-                        }).then(res => {
-                            $q.notify({
-                                message: 'Course added to user acount',
-                                color: 'positive',
-                                textColor: 'white',
-                                icon: 'check'
-                            })
-                        })
-
-                    //show quasar notification success
+            const userId = JSON.parse(localStorage.getItem('user'))._id;
+            //post the course data to /courses/new/userid and show success message if status is 200 else show error message
+            api.post('/courses/new/' + userId, CourseData).then(res => {
+                console.log(res)
+                //if http status is 200 show success message
+                if (res.status === 200) {
                     $q.notify({
                         color: 'positive',
                         textColor: 'white',
-                        message: 'Course added successfully',
+                        message: 'Course ajoute avec success',
                     })
-                    console.log("data is posted with success");
-                    console.log(res.data);
-                })
-
-                .catch(err => {
-                    //show quasar notification error
+                }
+                else {
                     $q.notify({
                         color: 'negative',
                         textColor: 'white',
-                        message: 'Error adding course',
+                        message: 'Erreur d\'ajout de Cours',
                     })
-                    console.log("an error occured");
-                    console.log(err);
-                })
-            console.log("addCourse");
+                }
+            })
+
 
         }
         const onSubmit = () => {
+            const formData = new FormData();
+            formData.append('title', data.value.courseName);
+            formData.append('nbrSeance', data.value.nbrSeance);
+            formData.append('tags', JSON.parse(JSON.stringify(data.value.modelMultiple)));
+            formData.append('price', data.value.CoursePrice);
+            formData.append('description', data.value.courseDescription);
+            formData.append('image', data.value.CourseImage, data.value.CourseImage.name);
+
             const CourseData = {
                 title: data.value.courseName,
                 nbrSeance: data.value.nbrSeance,
                 //converting proxy to array of strings
                 tag: JSON.parse(JSON.stringify(data.value.modelMultiple)),
                 price: data.value.CoursePrice,
-                desc: data.value.courseDescription,
-                //modelMultiple proxy to original array
-
-
+                description: data.value.courseDescription,
+                //add course image
+                image: data.value.CourseImage
             }
             console.log(CourseData)
-            addCourse(CourseData);
+            addCourse(formData);
             console.log("submit");
         }
 

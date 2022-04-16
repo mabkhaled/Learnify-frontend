@@ -28,7 +28,7 @@
             <q-btn flat round icon="visibility" />
             <q-btn flat color="primary">Voire</q-btn>
         </q-card-actions>
-        </q-card>
+    </q-card>
 </template>
 
 <script>
@@ -41,24 +41,19 @@ export default defineComponent({
     name: "CategoryCard",
     props: {
         imgUrl: {
-            type: String,
             required: true,
         },
         title: {
-            type: String,
             required: true,
         },
         price: {
-            type: Number,
             required: true,
         },
         stars: {
-            type: Number,
             required: true,
             default: 2,
         },
         description: {
-            type: String,
             required: true,
             default: null
         },

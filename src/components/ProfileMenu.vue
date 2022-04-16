@@ -17,7 +17,8 @@
                             <img :src="profileImgUrl" />
                         </q-avatar>
 
-                        <div class="text-subtitle1 q-mt-md q-mb-xs">{{ userDetails.firstName + userDetails.lastName}}</div>
+                        <div class="text-subtitle1 q-mt-md q-mb-xs">{{ userDetails.firstName + userDetails.lastName }}
+                        </div>
 
                         <q-btn color="primary" label="Logout" push size="sm" v-close-popup @click="logout()" />
                     </div>

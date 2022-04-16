@@ -11,8 +11,8 @@
       <category-card v-for="c in coursesCategories" :key="c.id" :imgUrl="c.imgUrl" :title="c.title"></category-card>
     </div>
     <div class="row">
-      <course-card v-for="c in CourseList" :key="c.title" imgUrl="img/course.jpg" :title="c.title" :price="c.price"
-        :stars="c.stars" :description="c.description.substring(0, 30)+'...'"></course-card>
+      <course-card v-for="c in CourseList" :key="c.title" :imgUrl="baseURL + c.image.substring(7)" :title="c.title"
+        :price="c.price" :stars="c.stars" :description="c.description.substring(0, 30) + '...'"></course-card>
     </div>
   </q-page>
 </template>
@@ -65,6 +65,7 @@ export default defineComponent({
       text: "",
       coursesCategories,
       CourseList,
+      baseURL: api.defaults.baseURL,
       getCourses() {
         const userDetails = JSON.parse(localStorage.getItem('user'))._id;
         //comenting this part of code to get all courses and to be replaced with the new api logic
@@ -75,10 +76,12 @@ export default defineComponent({
           //if the CourseList desc is null then set it to no description available
           this.CourseList.forEach((course) => {
             if (course.description == null) {
-              course.desc = "No description available";
+              course.description = "No description available";
             }
           });
         });
+        //log the base default url
+        console.log(api.defaults.baseURL);
       },
       search() {
         console.log(this.text);
