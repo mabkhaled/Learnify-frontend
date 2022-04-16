@@ -7,9 +7,9 @@
         <div class="row justify-center q-ma-md">
 
             <div class="col" style="max-width: 50%;">
-                <q-input type="text" :v-model="data.firstName" label="Changer votre nom" :model-value="data.firstName">
+                <q-input type="text" v-model="data.firstName" label="Changer votre nom">
                     <template v-slot:append>
-                        <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
+                        <q-btn @click="updateFirstName()" label="Changer" color="primary" flat></q-btn>
                     </template>
                 </q-input>
             </div>
@@ -17,9 +17,9 @@
         <div class="row justify-center q-ma-md">
 
             <div class="col" style="max-width: 50%;">
-                <q-input type="text" :v-model="data.lastName" label="Changer votre Prenom" :model-value="data.lastName">
+                <q-input type="text" v-model="data.lastName" label="Changer votre Prenom">
                     <template v-slot:append>
-                        <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
+                        <q-btn @click="updateLastName()" label="Changer" color="primary" flat></q-btn>
                     </template>
                 </q-input>
             </div>
@@ -27,9 +27,9 @@
         <div class="row justify-center q-ma-md">
 
             <div class="col" style="max-width: 50%;">
-                <q-input type="text" :v-model="data.email" label="Changer votre Email" :model-value="data.email">
+                <q-input type="text" v-model="data.email" label="Changer votre Email">
                     <template v-slot:append>
-                        <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
+                        <q-btn @click="updateEmail()" label="Changer" color="primary" flat></q-btn>
                     </template>
                 </q-input>
             </div>
@@ -39,7 +39,7 @@
             <div class="col" style="max-width: 50%;">
                 <q-file v-model="data.profilePhoto" label="Photo de Profile">
                     <template v-slot:append>
-                        <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
+                        <q-btn @click="updateProfileImage" label="Changer" color="primary" flat></q-btn>
                     </template>
                 </q-file>
 
@@ -51,33 +51,117 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { api } from '../boot/axios';
+import { useQuasar } from 'quasar'
 
-const data = {
-    firstName: ref(""),
-    lastName: ref(""),
-    email: ref(""),
+var data = ref({
+    firstName: JSON.parse(localStorage.getItem('user')).firstName,
+    lastName: JSON.parse(localStorage.getItem('user')).lastName,
+    email: JSON.parse(localStorage.getItem('user')).email,
     profilePhoto: null,
-}
+});
 export default defineComponent({
     name: "ProfilePage",
 
     setup() {
+        const $q = useQuasar();
+        const userId = JSON.parse(localStorage.getItem('user'))._id;
         return {
             data,
-            changeName
+
+            updateFirstName() {
+                console.log(data.value.firstName);
+                //create a user object with user firstName and lastName and email
+                const user = {
+                    firstName: data.value.firstName,
+                    lastName: JSON.parse(localStorage.getItem('user')).lastName,
+                    email: JSON.parse(localStorage.getItem('user')).email,
+                }
+                //send put request to /users/:userId with user object if status is 200 update localStorage and show success message
+                //else show error message
+                api.put(`/users/${userId}`, user).then(res => {
+                    //localStorage.setItem('user', JSON.stringify(res.data));
+                    $q.notify({
+                        color: "positive",
+                        message: "Votre nom a été changé avec succès",
+                        position: "top",
+                        timeout: 3000
+                    });
+                }).catch(err => {
+                    $q.notify({
+                        color: "negative",
+                        message: "Une erreur est survenue",
+                        position: "top",
+                        timeout: 3000
+                    });
+                })
+            },
+            updateLastName() {
+                console.log(data.value.lastName);
+                //create a user object with user firstName and lastName and email
+                const user = {
+                    firstName: JSON.parse(localStorage.getItem('user')).firstName,
+                    lastName: data.value.lastName,
+                    email: JSON.parse(localStorage.getItem('user')).email,
+                }
+                //send put request to /users/:userId with user object if status is 200 update localStorage and show success message
+                //else show error message
+                api.put(`/users/${userId}`, user).then(res => {
+                    //localStorage.setItem('user', JSON.stringify(res.data));
+                    $q.notify({
+                        color: "positive",
+                        message: "Votre Prénom a été changé avec succès",
+                        position: "top",
+                        timeout: 3000
+                    });
+                }).catch(err => {
+                    $q.notify({
+                        color: "negative",
+                        message: "Une erreur est survenue",
+                        position: "top",
+                        timeout: 3000
+                    });
+                })
+            },
+            updateEmail() {
+                console.log(data.value.email);
+                //create a user object with user firstName and lastName and email
+                const user = {
+                    firstName: JSON.parse(localStorage.getItem('user')).firstName,
+                    lastName: JSON.parse(localStorage.getItem('user')).lastName,
+                    email: data.value.email,
+                }
+                //send put request to /users/:userId with user object if status is 200 update localStorage and show success message
+                //else show error message
+                api.put(`/users/${userId}`, user).then(res => {
+                    //localStorage.setItem('user', JSON.stringify(res.data));
+                    $q.notify({
+                        color: "positive",
+                        message: "Votre Email a été changé avec succès",
+                        position: "top",
+                        timeout: 3000
+                    });
+                }).catch(err => {
+                    $q.notify({
+                        color: "negative",
+                        message: "Une erreur est survenue",
+                        position: "top",
+                        timeout: 3000
+                    });
+                })
+            },
+            updateProfileImage() {
+                console.log(data.value.profilePhoto);
+            },
 
         }
 
     },
     mounted() {
-        data.firstName = JSON.parse(localStorage.getItem('user')).firstName;
-        data.lastName = JSON.parse(localStorage.getItem('user')).lastName;
-        data.email = JSON.parse(localStorage.getItem('user')).email;
-        console.log(data.firstName);
+        console.log("app mounted ", data.value.firstName);
     },
+    computed() {
+        firstName: JSON.parse(localStorage.getItem('user')).firstName;
+    }
 });
-
-function changeName() {
-    console.log("change name", data.firstName);
-}
 </script>
