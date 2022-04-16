@@ -87,6 +87,11 @@ export default defineComponent({
                         position: "top",
                         timeout: 3000
                     });
+                    //update user firstName in localStorage
+                    var user = JSON.parse(localStorage.getItem('user'));
+                    user.firstName = data.value.firstName;
+                    localStorage.setItem('user', JSON.stringify(user));
+
                 }).catch(err => {
                     $q.notify({
                         color: "negative",
@@ -114,7 +119,13 @@ export default defineComponent({
                         position: "top",
                         timeout: 3000
                     });
+                    //update user lastName in localStorage
+                    var user = JSON.parse(localStorage.getItem('user'));
+                    user.lastName = data.value.lastName;
+                    localStorage.setItem('user', JSON.stringify(user));
+
                 }).catch(err => {
+                    console.log(err);
                     $q.notify({
                         color: "negative",
                         message: "Une erreur est survenue",
@@ -141,6 +152,10 @@ export default defineComponent({
                         position: "top",
                         timeout: 3000
                     });
+                    //update user email in localStorage
+                    var user = JSON.parse(localStorage.getItem('user'));
+                    user.email = data.value.email;
+                    localStorage.setItem('user', JSON.stringify(user));
                 }).catch(err => {
                     $q.notify({
                         color: "negative",
