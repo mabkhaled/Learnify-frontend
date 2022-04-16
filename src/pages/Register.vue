@@ -8,67 +8,25 @@
             <div class="q-ma-xl" style="width: 500px;">
                 <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
                     <!-- q-input username element  -->
-                    <q-input
-                        filled
-                        v-model="data.username"
-                        label="Nmm d'utilisateur"
-                        hint="type your username"
-                        lazy-rules
-                        :rules="[val => val && val.length > 0 || 'Please type something']"
-                    />
+                    <q-input filled v-model="data.username" label="Nmm d'utilisateur" hint="type your username"
+                        lazy-rules :rules="[val => val && val.length > 0 || 'Please type something']" />
                     <!-- q-input element  -->
-                    <q-input
-                        filled
-                        v-model="data.firstName"
-                        label="Votre Nom *"
-                        hint="type your first name"
-                        lazy-rules
-                        :rules="[val => val && val.length > 0 || 'Please type something']"
-                    />
+                    <q-input filled v-model="data.firstName" label="Votre Nom *" hint="type your first name" lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']" />
                     <!-- end of q-input element -->
-                    <q-input
-                        filled
-                        v-model="data.lastName"
-                        label="Votre Prénom *"
-                        hint="type your Last Name"
-                        lazy-rules
-                        :rules="[val => val && val.length > 0 || 'Please type something']"
-                    />
-                    <q-input
-                        filled
-                        v-model="data.email"
-                        label="Votre Email *"
-                        hint="type your Email"
-                        lazy-rules
-                        :rules="[val => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) || 'Please type a valid email']"
-                    />
+                    <q-input filled v-model="data.lastName" label="Votre Prénom *" hint="type your Last Name" lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']" />
+                    <q-input filled v-model="data.email" label="Votre Email *" hint="type your Email" lazy-rules
+                        :rules="[val => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val) || 'Please type a valid email']" />
                     <!-- this is the Birth date input -->
-                    <q-input
-                        filled
-                        v-model="data.birthDate"
-                        mask="date"
-                        :rules="['date']"
-                        hint="Votre data de naissance"
-                    >
+                    <q-input filled v-model="data.birthDate" mask="date" :rules="['date']"
+                        hint="Votre data de naissance">
                         <template v-slot:append>
                             <q-icon name="event" class="cursor-pointer">
-                                <q-popup-proxy
-                                    ref="qDateProxy"
-                                    cover
-                                    transition-show="scale"
-                                    transition-hide="scale"
-                                >
-                                    <q-date
-                                        v-model="data.birthDate"
-                                        hint="donner votre mot de pass"
-                                    >
+                                <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
+                                    <q-date v-model="data.birthDate" hint="donner votre mot de pass">
                                         <div class="row items-center justify-end">
-                                            <q-btn
-                                                v-close-popup
-                                                label="Close"
-                                                color="primary"
-                                                flat
-                                            />
+                                            <q-btn v-close-popup label="Close" color="primary" flat />
                                         </div>
                                     </q-date>
                                 </q-popup-proxy>
@@ -77,32 +35,15 @@
                     </q-input>
                     <!-- end of birth date input -->
 
-                    <q-input
-                        filled
-                        v-model="data.phone"
-                        label="Votre numéro de telephone *"
-                        hint="type your phone number"
-                        lazy-rules
-                        :rules="[val => val && val.length > 0 || 'Please type something']"
-                    />
-                    <q-input
-                        filled
-                        type="Password"
-                        v-model="data.password"
-                        label="Your Password *"
-                        lazy-rules
-                        :rules="[
-                            val => val !== null && val !== '' && val.length > 8 && val.length < 15 || 'Please type your Password',
-                        ]"
-                    />
+                    <q-input filled v-model="data.phone" label="Votre numéro de telephone *"
+                        hint="type your phone number" lazy-rules
+                        :rules="[val => val && val.length > 0 || 'Please type something']" />
+                    <q-input filled type="Password" v-model="data.password" label="Your Password *" lazy-rules :rules="[
+                        val => val !== null && val !== '' && val.length > 8 && val.length < 15 || 'Please type your Password',
+                    ]" />
 
                     <!-- upload profile image -->
-                    <q-file
-                        color="purple-12"
-                        v-model="data.profileImage"
-                        label="Profile image"
-                        accept=".jpg"
-                    >
+                    <q-file color="purple-12" v-model="data.profileImage" label="Profile image" accept=".jpg">
                         <template v-slot:prepend>
                             <q-icon name="attach_file" />
                         </template>
@@ -110,23 +51,13 @@
                     <!-- end of upload profile image -->
 
                     <!-- profile type select -->
-                    <q-select
-                        v-model="data.profileType"
-                        label="Profile Type *"
-                        :options="data.profileTypeOptions"
-                        :rules="[val => val || 'Please select a profile type']"
-                    ></q-select>
+                    <q-select v-model="data.profileType" label="Profile Type *" :options="data.profileTypeOptions"
+                        :rules="[val => val || 'Please select a profile type']"></q-select>
 
                     <div>
                         <q-btn label="Register" type="submit" color="primary" />
                         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-                        <q-btn
-                            label="Login Page"
-                            to="/login"
-                            color="primary"
-                            flat
-                            class="q-ml-sm float-right"
-                        />
+                        <q-btn label="Login Page" to="/login" color="primary" flat class="q-ml-sm float-right" />
                     </div>
                 </q-form>
             </div>
@@ -174,26 +105,15 @@ export default defineComponent({
                 phone: data.value.phone,
                 roles: [data.value.profileType.value],
             }
-            //transform json object to blob
-            const userdataBlob = new Blob([JSON.stringify(userData)], {
-                type: 'application/json',
-            });
+            formData.append('firstName', data.value.firstName);
+            formData.append('lastName', data.value.lastName);
+            formData.append('email', data.value.email);
+            formData.append('password', data.value.password);
+            formData.append('phone', data.value.phone);
 
-
-
-
-
-            //log userdate json
-            console.log(JSON.stringify(userData))
-            formData.append('signUpRequest', userdataBlob)
-            formData.append('profileImage', data.value.profileImage, data.value.profileImage.name)
-            api.post('/api/auth/signup', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            }).then(res => {
+            api.post('/users/register', formData).then(res => {
                 // chek for status code
-                if (res.status === 200) {
+                if (res.status === 201) {
                     $q.notify({
                         color: 'positive',
                         message: 'votre compte a été créé avec succès',
