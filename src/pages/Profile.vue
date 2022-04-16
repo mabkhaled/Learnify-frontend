@@ -7,8 +7,7 @@
         <div class="row justify-center q-ma-md">
 
             <div class="col" style="max-width: 50%;">
-                <q-input type="text" :v-model="data.userNameInput" label="Changer votre nom"
-                    :model-value="data.userNameInput">
+                <q-input type="text" :v-model="data.firstName" label="Changer votre nom" :model-value="data.firstName">
                     <template v-slot:append>
                         <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
                     </template>
@@ -18,8 +17,7 @@
         <div class="row justify-center q-ma-md">
 
             <div class="col" style="max-width: 50%;">
-                <q-input type="text" :v-model="data.lastNameInput" label="Changer votre Prenom"
-                    :model-value="data.lastNameInput">
+                <q-input type="text" :v-model="data.lastName" label="Changer votre Prenom" :model-value="data.lastName">
                     <template v-slot:append>
                         <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
                     </template>
@@ -29,8 +27,7 @@
         <div class="row justify-center q-ma-md">
 
             <div class="col" style="max-width: 50%;">
-                <q-input type="text" :v-model="data.emailInput" label="Changer votre Email"
-                    :model-value="data.emailInput">
+                <q-input type="text" :v-model="data.email" label="Changer votre Email" :model-value="data.email">
                     <template v-slot:append>
                         <q-btn @click="changeName" label="Changer" color="primary" flat></q-btn>
                     </template>
@@ -56,9 +53,9 @@
 import { defineComponent, ref } from "vue";
 
 const data = {
-    userNameInput: ref(""),
-    lastNameInput: ref(""),
-    emailInput: ref(""),
+    firstName: ref(""),
+    lastName: ref(""),
+    email: ref(""),
     profilePhoto: null,
 }
 export default defineComponent({
@@ -73,13 +70,14 @@ export default defineComponent({
 
     },
     mounted() {
-        data.userNameInput = JSON.parse(localStorage.getItem('user')).firstName;
-        data.emailInput = JSON.parse(localStorage.getItem('user')).email;
-        console.log(data.userNameInput);
+        data.firstName = JSON.parse(localStorage.getItem('user')).firstName;
+        data.lastName = JSON.parse(localStorage.getItem('user')).lastName;
+        data.email = JSON.parse(localStorage.getItem('user')).email;
+        console.log(data.firstName);
     },
 });
 
 function changeName() {
-    console.log("change name", data.userNameInput);
+    console.log("change name", data.firstName);
 }
 </script>
