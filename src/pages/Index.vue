@@ -11,8 +11,9 @@
       <category-card v-for="c in coursesCategories" :key="c.id" :imgUrl="c.imgUrl" :title="c.title"></category-card>
     </div>
     <div class="row">
-      <course-card v-for="c in CourseList" :key="c.title" :imgUrl="baseURL + c.image.substring(7)" :title="c.title"
-        :price="c.price" :stars="c.stars" :description="c.description.substring(0, 30) + '...'"></course-card>
+      <course-card v-for="c in CourseList" :key="c._id" :id="c._id" :imgUrl="baseURL + c.image.substring(7)"
+        :title="c.title" :price="c.price" :stars="c.stars" :description="c.description.substring(0, 30) + '...'">
+      </course-card>
     </div>
   </q-page>
 </template>

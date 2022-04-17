@@ -26,7 +26,7 @@
 
         <q-card-actions>
             <q-btn flat round icon="visibility" />
-            <q-btn flat color="primary">Voire</q-btn>
+            <q-btn flat color="primary" @click="voireCourse()">Voire</q-btn>
         </q-card-actions>
     </q-card>
 </template>
@@ -57,11 +57,32 @@ export default defineComponent({
             required: true,
             default: null
         },
+        id: {
+            required: true,
+            default: null
+        },
 
     },
     setup(props) {
+        const $router = useRouter();
         return {
             star: ref(props.stars),
+            voireCourse() {
+                //create course object
+                const courseObj = {
+                    title: props.title,
+                    price: props.price,
+                    description: props.description,
+                    imgUrl: props.imgUrl,
+                    id: props.id,
+                    stars: props.stars,
+                };
+                //set course object to local storage
+                localStorage.setItem("SelectedCourse", JSON.stringify(courseObj));
+                //push to course page with course data
+
+                $router.push("/course/" + props.id);
+            }
 
         }
 
