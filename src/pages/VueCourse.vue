@@ -21,7 +21,7 @@
             <q-card-section>
                 <div class="q-pa-md">
                     <q-list bordered separator>
-                        <q-item clickable v-ripple v-for="l in course.lessons" :key="l._id">
+                        <q-item clickable v-ripple v-for="l in course.lessons" :key="l._id" @click="goToMeet(l._id)">
                             <q-item-section>
                                 <q-item-label>{{ l.title }}</q-item-label>
                             </q-item-section>
@@ -87,6 +87,7 @@ export default defineComponent({
         const course = ref(null);
         var confirm = ref(false);
         const $q = useQuasar();
+        const $router = useRouter();
         function getCourse(courseId) {
             api.get("/courses/" + courseId).then(response => {
                 console.log(response.data);
@@ -125,10 +126,24 @@ export default defineComponent({
             });
             this.confirm = true
         }
+
+        function goToMeet(lessonId) {
+            //go to meet page
+            console.log("go to meet page");
+            console.log(lessonId);
+            //use the function useRouter() to get the current route params
+            $router.push({
+                name: "VueMeetPage",
+                params: {
+                    lessonId: lessonId
+                }
+            });
+        }
         return {
             course,
             inscritCourse,
             acheterCourse,
+            goToMeet,
             confirm
 
         }

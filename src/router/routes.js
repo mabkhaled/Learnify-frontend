@@ -30,10 +30,43 @@ const routes = [
     },
   },
   {
+    path: "/notifications",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/Notifications.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/courseabonne",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/CourseAbonne.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/mescourse",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/MesCourse.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     name: "course",
     path: "/course/:id",
     component: () => import("layouts/DashboardLayout.vue"),
     children: [{ path: "", component: () => import("pages/VueCourse.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    name: "VueMeetPage",
+    path: "/VueMeetPage/:lessonId",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/VueMeetPage.vue") }],
     meta: {
       requiresAuth: true,
     },

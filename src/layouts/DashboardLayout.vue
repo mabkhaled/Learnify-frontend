@@ -38,7 +38,7 @@ export default {
   setup() {
     const leftDrawerOpen = ref(false);
     const links = [
-      {title: 'Dashboard', icon: 'dashboard', to: '/dashboard'},
+      { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
       {
         title: 'Notifications',
         caption: 'Consultez les notifications',
@@ -68,6 +68,18 @@ export default {
         caption: 'Consultez votre profile',
         link: '/profile',
         icon: 'person',
+      },
+      {
+        title: 'Mes Course',
+        caption: 'Consultez votre Course',
+        link: '/mescourse',
+        icon: 'school',
+      },
+      {
+        title: 'Course abonné',
+        caption: 'Consultez votre Course abonné',
+        link: '/courseabonne',
+        icon: 'subscriptions',
       },
     ];
     return {
