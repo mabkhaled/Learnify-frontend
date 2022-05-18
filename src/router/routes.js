@@ -90,6 +90,15 @@ const routes = [
     },
   },
   {
+    name: "pdf",
+    path: "/course/:courseId/lesson/:lessonId/pdf",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/pdf.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/threads",
     component: () => import("layouts/DashboardLayout.vue"),
     children: [

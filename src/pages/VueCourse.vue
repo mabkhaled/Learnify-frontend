@@ -44,7 +44,7 @@
 
     </q-page>
     <div v-else>
-        <h5>un erreur aux connexion de serveur </h5>
+        <h5>Loading ... </h5>
     </div>
     <!-- this part is for the payment form -->
     <q-dialog v-model="confirm" persistent>
@@ -132,16 +132,40 @@ export default defineComponent({
         }
 
         function goToMeet(lessonId) {
-            //go to meet page
-            console.log("go to meet page");
-            console.log(lessonId);
-            //use the function useRouter() to get the current route params
-            $router.push({
-                name: "VueMeetPage",
-                params: {
-                    lessonId: lessonId
-                }
-            });
+            console.log('lesson id = ',lessonId)
+            const lesson = course.value.lessons.find(el => el._id == lessonId);
+            if(lesson.hasOwnProperty('meetCode')){
+                $router.push({
+                    name: "VueMeetPage",
+                    params: {
+                        lessonId: lessonId
+                    }
+                });
+            }
+            let extension = lesson.support.split('.').pop().toLowerCase();
+            if(extension == 'pdf'){
+                // redirect to pdf page
+                 $router.push({
+                    name: "pdf",
+                    params: {
+                        courseId: course.value._id,
+                        lessonId : lessonId
+                    }
+                });
+            }else{
+                // download file
+                api.get(lesson.support.replace('public\\',''),{responseType: 'blob',}).then(response => {
+                    var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                    var fileLink = document.createElement('a');
+
+                    fileLink.href = fileURL;
+                    fileLink.setAttribute('download', lesson.support.replace(/\\$/,'').split('\\').pop());
+                    document.body.appendChild(fileLink);
+
+                    fileLink.click();
+                });
+                
+            }
         }
         return {
             course,
