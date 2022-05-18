@@ -19,7 +19,11 @@
                 </div>
             </q-card-section>
             <q-card-section>
+                
                 <div class="q-pa-md">
+    <q-btn :to="'/course/'+course._id+'/add-lesson'"  icon="add" label="Ajouter une lesson"  color="primary" class="q-mb-md" />
+
+
                     <q-list bordered separator>
                         <q-item clickable v-ripple v-for="l in course.lessons" :key="l._id" @click="goToMeet(l._id)">
                             <q-item-section>
@@ -82,7 +86,7 @@ import { useQuasar } from "quasar";
 
 // }
 export default defineComponent({
-    name: "VueCoursePage",
+    name: "VueCourse",
     setup() {
         const course = ref(null);
         var confirm = ref(false);
