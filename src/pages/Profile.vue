@@ -121,6 +121,7 @@ export default defineComponent({
                         position: "top",
                         timeout: 3000
                     });
+<<<<<<< HEAD
                 }
             };
 
@@ -254,6 +255,40 @@ export default defineComponent({
             //     })
 
             // },
+=======
+                })
+            },
+            updateProfileImage() {
+                console.log(data.value.profilePhoto);
+                //create formData object with user profilePhoto as profilePic
+                const formData = new FormData();
+                formData.append('profilePic', data.value.profilePhoto);
+                //send put request to /users/picture/:userId with formData object if status is 200 update localStorage and show success message
+                //else show error message
+                api.put(`/users/picture/${userId}`, formData).then(res => {
+                    //localStorage.setItem('user', JSON.stringify(res.data));
+                    $q.notify({
+                        color: "positive",
+                        message: "Votre photo de profile a été changé avec succès",
+                        position: "top",
+                        timeout: 3000
+                    });
+                    //update user profilePhoto in localStorage
+                    var user = JSON.parse(localStorage.getItem('user'));
+                    user.profilePhoto = data.value.profilePhoto;
+                    console.log(data.value)
+                    localStorage.setItem('user', JSON.stringify(user));
+                }).catch(err => {
+                    $q.notify({
+                        color: "negative",
+                        message: "Une erreur est survenue",
+                        position: "top",
+                        timeout: 3000
+                    });
+                })
+
+            },
+>>>>>>> 97fa35b2aa5afb30c7873dd16a08f39be1638f9e
 
         }
 
