@@ -11,12 +11,19 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
-
   },
   {
     path: "/profile",
     component: () => import("layouts/DashboardLayout.vue"),
     children: [{ path: "", component: () => import("pages/Profile.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/favoris",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/Favoris.vue") }],
     meta: {
       requiresAuth: true,
     },
@@ -32,7 +39,9 @@ const routes = [
   {
     path: "/notifications",
     component: () => import("layouts/DashboardLayout.vue"),
-    children: [{ path: "", component: () => import("pages/Notifications.vue") }],
+    children: [
+      { path: "", component: () => import("pages/Notifications.vue") },
+    ],
     meta: {
       requiresAuth: true,
     },
@@ -63,10 +72,47 @@ const routes = [
     },
   },
   {
+    name: "add-lesson",
+    path: "/course/:id/add-lesson",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/AddLesson.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     name: "VueMeetPage",
     path: "/VueMeetPage/:lessonId",
     component: () => import("layouts/DashboardLayout.vue"),
     children: [{ path: "", component: () => import("pages/VueMeetPage.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/threads",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/threads/index.vue") },
+    ],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/threads/:id",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [{ path: "", component: () => import("pages/threads/show.vue") }],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/threads/create",
+    component: () => import("layouts/DashboardLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/threads/create.vue") },
+    ],
     meta: {
       requiresAuth: true,
     },
@@ -82,7 +128,6 @@ const routes = [
     children: [{ path: "", component: () => import("pages/Register.vue") }],
   },
 
-
   // Always leave this as last one,
   // but you can also remove it
   {
@@ -90,7 +135,5 @@ const routes = [
     component: () => import("pages/Error404.vue"),
   },
 ];
-
-
 
 export default routes;

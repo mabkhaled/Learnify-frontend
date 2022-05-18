@@ -25,14 +25,16 @@
         <q-separator />
 
         <q-card-actions>
-            <q-btn flat round icon="visibility" />
-            <q-btn flat color="primary" @click="voireCourse()">Voire</q-btn>
+            
+            <q-btn @click="$emit('updatewish',id)"  size="sm" :color="wish ? 'red' : 'dark'" icon="favorite"  />
+            <q-btn flat color="primary" @click="voireCourse()"><q-btn flat round icon="visibility" />
+             Voire</q-btn>
         </q-card-actions>
     </q-card>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, toRefs } from "vue";
 import { api } from "../boot/axios";
 import { useRouter } from "vue-router";
 
@@ -61,10 +63,13 @@ export default defineComponent({
             required: true,
             default: null
         },
-
+        wish : {
+            default: false
+        }
     },
     setup(props) {
         const $router = useRouter();
+
         return {
             star: ref(props.stars),
             voireCourse() {
@@ -76,17 +81,20 @@ export default defineComponent({
                     imgUrl: props.imgUrl,
                     id: props.id,
                     stars: props.stars,
+                    wish : props.wish
                 };
                 //set course object to local storage
                 localStorage.setItem("SelectedCourse", JSON.stringify(courseObj));
                 //push to course page with course data
 
                 $router.push("/course/" + props.id);
-            }
+            },
+            
 
         }
 
     }
+
 });
 </script>
 <style lang="sass" scoped>

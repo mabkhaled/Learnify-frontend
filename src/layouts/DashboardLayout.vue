@@ -81,6 +81,12 @@ export default {
         link: '/courseabonne',
         icon: 'subscriptions',
       },
+       {
+        title: 'Les publications',
+        caption: 'Consultez les publication publiée',
+        link: '/threads',
+        icon: 'forum',
+      },
     ];
     return {
       leftDrawerOpen,
